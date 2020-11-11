@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Contracts\Service\Attribute\Required;
+use App\Mail\SendNewMail;
+use Illuminate\Support\Facades\Mail;
 
 class ArticleController extends Controller
 {
@@ -63,6 +65,8 @@ class ArticleController extends Controller
         $newArticle->image = $path;
 
         $newArticle->save();
+
+        Mail::to('destinatario')->send(new SendNewMail());
 
         return redirect()->route('admin.posts.show', $newArticle->slug);
     }
